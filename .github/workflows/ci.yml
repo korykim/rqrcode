@@ -32,7 +32,7 @@ jobs:
           rustup target add ${{ matrix.platform.target }}
           # https://github.com/pypa/setuptools_scm/issues/707
           git config --global --add safe.directory /io
-          cd examples/rust_with_cffi/
+          cd rqrcode
           python3.9 -m pip install crossenv
           python3.9 -m crossenv "/opt/python/cp39-cp39/bin/python3" --cc $TARGET_CC --cxx $TARGET_CXX --sysroot $TARGET_SYSROOT --env LIBRARY_PATH= --manylinux manylinux1 venv
           . venv/bin/activate
