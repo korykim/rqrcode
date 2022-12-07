@@ -20,7 +20,6 @@ jobs:
       matrix:
         platform: [
           { target: "aarch64-unknown-linux-gnu", arch: "aarch64" },
-          { target: "armv7-unknown-linux-gnueabihf", arch: "armv7" },
         ]
     steps:
       - uses: actions/checkout@master
@@ -33,12 +32,12 @@ jobs:
           # https://github.com/pypa/setuptools_scm/issues/707
           git config --global --add safe.directory /io
           cd rqrcode
-          python3.9 -m pip install  pip==22.3.1
           python3.9 -m pip install crossenv
           python3.9 -m crossenv "/opt/python/cp39-cp39/bin/python3" --cc $TARGET_CC --cxx $TARGET_CXX --sysroot $TARGET_SYSROOT --env LIBRARY_PATH= --manylinux manylinux1 venv
           . venv/bin/activate
           build-pip install cffi wheel "setuptools>=62.4"
           cross-expose cffi
+          python3.9 -m pip install  pip==22.3.1
           pip install wheel
           pip install -e ../../
           python setup.py bdist_wheel --py-limited-api=cp37
@@ -58,7 +57,7 @@ jobs:
           run: |
             cd /rqrcode
             python3 --version
-            pip3 install rqrcode/dist/rqrcode*.whl
+            pip3 install rqrcode/target/wheels/rqrcode*.whl
             python3 -c "rqrcode.qrcode_unicode("hello")"
 
   
