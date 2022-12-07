@@ -40,5 +40,6 @@ setup(
         "Operating System :: MacOS :: MacOS X",
 
     ],
+    
     include_package_data=True
 )
