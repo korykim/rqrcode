@@ -12,65 +12,7 @@ concurrency:
 
 jobs:
  
-    test-abi3:
-    runs-on: ${{ matrix.os }}
-    strategy:
-      # If one platform fails, allow the rest to keep testing if `CI-no-fail-fast` label is present
-      fail-fast: ${{ !contains(github.event.pull_request.labels.*.name, 'CI-no-fail-fast') }}
-      matrix:
-        os: [ubuntu-latest, macos-latest, windows-latest]
-    steps:
-      - uses: actions/checkout@master
-      - name: Setup python
-        uses: actions/setup-python@v4
-        with:
-          python-version: 3.9
-
-      - uses: dtolnay/rust-toolchain@stable
-
-      - name: Install Rust aarch64-apple-darwin target
-        if: matrix.os == 'macos-latest'
-        run: rustup target add aarch64-apple-darwin
-
-      - name: Build package
-        run: pip install -e .
-
-      - name: Build an abi3 wheel
-        shell: bash
-        run: |
-          set -e
-          cd rqrcode/rqrcode/
-          python --version
-          pip install -U wheel
-          python setup.py bdist_wheel --py-limited-api=cp39
-          ls -la dist/
-        env:
-          # https://github.com/actions/setup-python/issues/26
-          MACOSX_DEPLOYMENT_TARGET: 10.9
-
-      # Now we switch to a differnet Python version and ensure we can install
-      # the wheel we just built.
-      - name: Setup python
-        uses: actions/setup-python@v4
-        with:
-          python-version: "3.10"
-
-      - name: Install abi3 wheel and run tests
-        shell: bash
-        run: |
-          set -e
-          cd rqrcode/
-          pip install -U wheel
-          python --version
-          pip install rqrcode/dist/rqrcode*.whl
-          python -c "rqrcode.qrcode_unicode("hello")"
-      - name: Run abi3audit
-        shell: bash
-        run: |
-          set -e
-          pip install abi3audit
-          cd rqrcode/
-          abi3audit rqrcode/dist/rqrcode*.whl
+ 
   test-crossenv:
     runs-on: ubuntu-latest
     strategy:
