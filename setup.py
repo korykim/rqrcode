@@ -6,6 +6,8 @@ setup(
     name="rqrcode", 
     # 包版本 
     version="0.0.1",
+    # 须要创立一个文件夹 rqrcode
+    packages=["rqrcode"],
     # rust扩大 其中"rqrcode.rqrcode"中
     # 第一个rqrcode 指的是以后的包
     # 第二个指的是
@@ -21,11 +23,11 @@ setup(
         RustExtension(
             "rqrcode.rqrcode", 
             binding=Binding.PyO3,
-            debug=False
+            debug=False,
+            py_limited_api="auto"
             )
     ],
-    # 须要创立一个文件夹 rqrcode
-    packages=["rqrcode"],
+
     # rust extensions are not zip safe, just like C-extensions.
     zip_safe=False,
     # 标注
@@ -40,6 +42,6 @@ setup(
         "Operating System :: MacOS :: MacOS X",
 
     ],
-    
+
     include_package_data=True
 )

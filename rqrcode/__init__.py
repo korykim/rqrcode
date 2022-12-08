@@ -1,0 +1,1 @@
+from rqrcode import rqrcode
