@@ -31,7 +31,7 @@ jobs:
         uses: actions/setup-python@v2
         with:
           python-version: ${{ matrix.python-version }}
-      - name: Install dependencies and Build wheels
+      - name: Install dependencies and Build wheels for Python ${{ matrix.python-version }}
           run: |
             echo 'set -ex
             curl -sSf https://sh.rustup.rs | sh -s -- -y --default-toolchain stable
@@ -40,7 +40,7 @@ jobs:
             # https://github.com/pypa/setuptools_scm/issues/707
             git config --global --add safe.directory /io
             apt-get install tree
-            python3.9 -m pip install  pip==22.3.1
-            python3.9 -m pip install  cffi wheel "setuptools>=62.4" setuptools-rust maturin
+            python -m pip install  pip==22.3.1
+            python -m pip install  cffi wheel "setuptools>=62.4" setuptools-rust maturin
             pip list
             python setup.py bdist_wheel 
