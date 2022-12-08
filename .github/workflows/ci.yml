@@ -19,11 +19,11 @@ jobs:
       matrix:
         python-version: ["3.11"]
         os: [ubuntu-18.04, macOS-latest, windows-latest]
-        platform: [
-          { target: "x86_64-unknown-linux-gnu", arch: "x86_64" },
-          { target: "x86_64-apple-darwin", arch: "x86_64" },
-          { target: "x86_64-pc-windows-gnu", arch: "x86_64" }
-        ]
+        # platform: [
+        #   { target: "x86_64-unknown-linux-gnu", arch: "x86_64" },
+        #   { target: "x86_64-apple-darwin", arch: "x86_64" },
+        #   { target: "x86_64-pc-windows-gnu", arch: "x86_64" }
+        # ]
         #include:
           # pypy-3.7 on Mac OS currently fails trying to compile
           # brotlipy. Moving pypy3 to only test linux.
@@ -40,7 +40,7 @@ jobs:
         run: |
             curl -sSf https://sh.rustup.rs | sh -s -- -y --default-toolchain stable
             source ~/.cargo/env
-            rustup target add ${{ matrix.platform.target }}
+            # rustup target add ${{ matrix.platform.target }}
             #git config --global --add safe.directory /io
             apt-get install tree
             python -m pip install  pip==22.3.1
