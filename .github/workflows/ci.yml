@@ -41,7 +41,7 @@ jobs:
           pip install setuptools-rust
           pip install wheel
           pip list
-          pip install -e ../../
+          pip install -e
           python setup.py bdist_wheel --py-limited-api=cp37
           ls -la dist/
           ' > build-wheels.sh
