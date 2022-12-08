@@ -17,28 +17,31 @@ jobs:
     strategy:
       fail-fast: false
       matrix:
-        python-version: ["3.7", "3.8", "3.9", "3.10", "3.11-dev"]
+        python-version: ["3.11"]
         os: [ubuntu-18.04, macOS-latest, windows-latest]
-        include:
+        platform: [
+          { target: "x86_64-unknown-linux-gnu", arch: "x86_64" },
+          { target: "x86_64-apple-darwin", arch: "x86_64" },
+          { target: "x86_64-pc-windows-gnu", arch: "x86_64" }
+        ]
+        #include:
           # pypy-3.7 on Mac OS currently fails trying to compile
           # brotlipy. Moving pypy3 to only test linux.
-          - python-version: pypy-3.7
-            os: ubuntu-latest
-            experimental: false
+          #- python-version: pypy-3.7
+            #os: ubuntu-latest
+            #experimental: false
     steps:
       - uses: actions/checkout@master
       - name: Set up Python ${{ matrix.python-version }}
-        uses: actions/setup-python@v2
+        uses: actions/setup-python@v4
         with:
           python-version: ${{ matrix.python-version }}
       - name: Install dependencies and Build wheels for Python ${{ matrix.python-version }}
         run: |
-            echo 'set -ex
             curl -sSf https://sh.rustup.rs | sh -s -- -y --default-toolchain stable
             source ~/.cargo/env
             rustup target add ${{ matrix.platform.target }}
-            # https://github.com/pypa/setuptools_scm/issues/707
-            git config --global --add safe.directory /io
+            #git config --global --add safe.directory /io
             apt-get install tree
             python -m pip install  pip==22.3.1
             python -m pip install  cffi wheel "setuptools>=62.4" setuptools-rust maturin
