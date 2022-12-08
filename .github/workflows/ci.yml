@@ -52,11 +52,14 @@ jobs:
           arch: ${{ matrix.platform.arch }}
           distro: ubuntu20.04
           dockerRunArgs: |
-            --volume "${PWD}:/"
+            --volume "${PWD}/rqrcode:/rqrcode"
           install: |
             apt-get update
-            apt-get install -y --no-install-recommends python3 python3-dev python3-pip build-essential libffi-dev
+            apt-get install -y --no-install-recommends python3 python3-dev python3-pip build-essential libffi-dev tree
           run: |
+            ls
+            pwd
+            tree
             python3 --version
             pip3 install dist/rqrcode*.whl
             python3 -c "rqrcode.qrcode_unicode("hello")"
