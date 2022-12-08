@@ -62,6 +62,7 @@ jobs:
             # tree
             python3 --version
             pip3 install dist/rqrcode*.whl
-            python3 -c "from rqrcode import rqrcode; rqrcode.qrcode_unicode('Hello')"
+            python3 -c "import rqrcode; print(dir(rqrcode))"
+            #python3 -c "from rqrcode import rqrcode; rqrcode.qrcode_unicode('Hello')"
 
   
