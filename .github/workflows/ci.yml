@@ -2,13 +2,22 @@ name: CI
 
 on:
   push:
-    branches:
-      - main
-      - master
-  pull_request:
-    branches:
-      - main
-      - master
+    #branches:
+      #- main
+      #- master
+    tags:
+        - 'v*.*.*' # git tag v0.1.0; git push origin --tags 当接收到新的标签推送时，且标签名为「v*.*.*」时，就执行 Workflow。
+    #   - '*'
+
+  # pull_request:
+  #   paths-ignore:
+  #       - '**/*.md'
+  #       - '**/*.txt'
+  #       - '**/*.png'
+  #       - '**/*.jpg'
+  #   branches:
+  #     - main
+  #     - master
 
 jobs:
   macos:
@@ -220,14 +229,45 @@ jobs:
     runs-on: ubuntu-latest
     if: "startsWith(github.ref, 'refs/tags/')"
     needs: [ macos, windows, linux, linux-cross, musllinux, musllinux-cross ]
+    environment: pypi # https://docs.github.com/en/actions/reference/environments 使用github项目中设置的pypi环境变量
     steps:
-          - uses: actions/download-artifact@v3
+          - name: Download wheels
+            uses: actions/download-artifact@v3
             with:
               name: wheels
-          - name: Publish to PyPI
-            uses: PyO3/maturin-action@v1
-            env:
-              MATURIN_PYPI_TOKEN: ${{ secrets.PYPI_API_TOKEN }}
+              path: dist
+
+          - name: Display structure of downloaded files
+            run: ls -R
+
+          - name: Upload Release 
+            uses: softprops/action-gh-release@v1
             with:
-              command: upload
-              args: --skip-existing *
+              files: dist/*
+              draft: true
+
+          # - name: Create Release
+          #   id: create_release
+          #   uses: actions/create-release@latest
+          #   env:
+          #     GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+          #   with:
+          #     tag_name: ${{ github.run_number }}
+          #     release_name: Release ${{ github.run_number }}
+
+          # - name: Upload Release asset
+          #   id: upload_release_asset
+          #   uses: actions/upload-release-asset@latest
+          #   env:
+          #     GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+          #   with:
+          #     upload_url: ${{ steps.create_release.outputs.upload_url }}
+          #     asset_path: ./rqrcode-release.zip
+          #     asset_name: rqrcode-v${{ github.run_number }}.zip
+          #     asset_content_type: application/zip
+
+          - name: Publish to PyPI
+            uses: pypa/gh-action-pypi-publish@27b31702a0e7fc50959f5ad993c78deac1bdfc29
+            with:
+              user: __token__
+              password: ${{ secrets.PYPI_API_TOKEN }}
