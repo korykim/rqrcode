@@ -1,3 +1,6 @@
+# rqrcode.py
+
+![CI](https://github.com/korykim/rqrcode/workflows/CI/badge.svg)
 # 使用方法(usage)
 
 ### 安装(install)
@@ -7,7 +10,7 @@ pip install rqrcode
 
 ### 测试(test)
 ```python
-import rqrcode
+from rqrcode import rqrcode
 
 if __name__ == '__main__':
     # 生成二维码PNG图片保存(Generate QR code PNG picture and save)
