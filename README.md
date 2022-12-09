@@ -6,7 +6,7 @@
 [![PyPI - License](https://img.shields.io/pypi/l/rqrcode.svg)](https://pypi.org/project/rqrcode)
 [![PyPI - Downloads](https://img.shields.io/pypi/dm/rqrcode.svg)](https://pypi.org/project/rqrcode)
 [![PyPI - Status](https://img.shields.io/pypi/status/rqrcode.svg)](https://pypi.org/project/rqrcode)
-[![PyPI - Wheel](https://img.shields.io/badge/wheel-yes-green.svg)(https://pypi.org/project/rqrcode)
+[![PyPI - Wheel](https://img.shields.io/badge/wheel-yes-green.svg)](https://pypi.org/project/rqrcode)
 
 # 使用方法(usage)
 
